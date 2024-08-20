@@ -1,5 +1,6 @@
-﻿#include "ListNode.hpp"
-#include <cassert>
+﻿#pragma once
+#include "ListNode.hpp"
+#include <stdexcept>
 
 //单向列表
 template <class T>
@@ -136,7 +137,11 @@ inline int List<T>::IndexOf(const T &vlaue)
 template <class T>
 inline T &List<T>::operator[](int nIndex)
 {
-    assert(nIndex < m_nCount);
+    if (nIndex > m_nCount || nIndex < 0)
+    {
+        throw std::out_of_range("index is invalid");
+    }
+
     ListNode<T>* pIndex = m_pRootNode->m_pNextNode;
 
     while (nIndex > 0)
