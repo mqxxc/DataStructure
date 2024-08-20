@@ -21,6 +21,21 @@
     <ClInclude Include="List\ListNode.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="stack\Stack.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="queue\Queue.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="queue\AnnularQueue.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="queue\TwoWayNode.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="queue\TwoWayQueue.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\testMain.cpp">

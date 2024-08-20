@@ -1,4 +1,7 @@
-﻿#include <iostream>
+﻿#pragma once
+#include <iostream>
+
+
 #include "../List/List.hpp"
 
 void Print(List<int>* temp)
@@ -11,7 +14,7 @@ void Print(List<int>* temp)
     std::cout << std::endl;
 }
 
-int main()
+int main_list()
 {
     List<int> list;
     list.Append(1);
@@ -24,5 +27,47 @@ int main()
     Print(&list);
     std::cout << list.IndexOf(90)<<std::endl;
     std::cout << list.IndexOf(80) << std::endl;
+
+    return 0;
+}
+
+#include "../queue/TwoWayQueue.hpp"
+int main_TwoWayQueue()
+{
+    TwoWayQueue<int> queue;
+    queue.Push(12, true);
+    queue.Push(20, false);
+    queue.Push(145, true);
+    std::cout << "quenue size is " << queue.Size() << std::endl;
+    std::cout << "quenue front is " << queue.peekFront() << std::endl;
+    std::cout << "quenue rear is " << queue.peekRear() << std::endl;
+    std::cout << "pop:" << queue.Pop(true) << std::endl;
+    std::cout << "pop:" << queue.Pop(false) << std::endl;
+
+    return 0;
+}
+
+#include "../queue/Queue.hpp"
+int test_Queue()
+{
+    Queue<int> queue;
+
+    queue.Push(12);
+    queue.Push(25);
+    queue.Push(35);
+
+    std::cout << "queue size is :" << queue.Size() << std::endl;
+
+    std::cout << "queue top unit is :" << queue.Peek() << std::endl;
+
+    queue.Pop();
+    std::cout << "queue size is :" << queue.Size() << std::endl;
+
+    return 0; 
+}
+
+
+int main()
+{
     return 0;
 }
