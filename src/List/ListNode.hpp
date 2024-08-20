@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 //单行列表节点
 template <class T>
 class ListNode
