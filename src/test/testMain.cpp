@@ -66,8 +66,33 @@ int test_Queue()
     return 0; 
 }
 
+#include "../queue/AnnularQueue.hpp"
+void test_annularQueue() 
+{
+    AnnularQueue<int> queue;
+    queue.Enque(1);
+    queue.Enque(2);
+    queue.Enque(3);
+    std::cout << "Front:" << queue.Front() << std::endl;
+    std::cout << "Rear:" << queue.Rear() << std::endl;
+    //std::cout << "deque:" << queue.Deque() << std::endl;
+
+    queue.Enque(15);
+
+    std::cout << "Front:" << queue.Front() << std::endl;
+    std::cout << "maxsize:" << queue.Size() << std::endl;
+   
+    std::cout << "size:" << queue.Count() << std::endl;
+    std::cout << "isEmpty" << queue.Empty() << std::endl;
+    std::cout << "isFull" << queue.Full() << std::endl;
+    
+
+    queue.Print_test();
+}
+
 
 int main()
 {
+    test_annularQueue();
     return 0;
 }

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "../List/ListNode.hpp"
-
 #include <stdexcept>
 
 template<class T>
