@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../List/ListNode.hpp"
+#include "../Nodes/ListNode.hpp"
 
 #include <stdexcept>
 

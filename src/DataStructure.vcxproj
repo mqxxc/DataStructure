@@ -140,11 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="List\List.hpp" />
-    <ClInclude Include="List\ListNode.hpp" />
+    <ClInclude Include="Nodes\ListNode.hpp" />
     <ClInclude Include="queue\AnnularQueue.hpp" />
     <ClInclude Include="queue\Queue.hpp" />
-    <ClInclude Include="queue\TwoWayNode.hpp" />
+    <ClInclude Include="Nodes\TwoWayNode.hpp" />
     <ClInclude Include="queue\TwoWayQueue.hpp" />
+    <ClInclude Include="stack\MonotoneStack.hpp" />
     <ClInclude Include="stack\Stack.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-#include "../List/List.hpp"
+#include "../list/List.hpp"
 
 void Print(List<int>* temp)
 {

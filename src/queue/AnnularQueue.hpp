@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "TwoWayNode.hpp"
+#include "../Nodes/TwoWayNode.hpp"
 
 #include <stdexcept>
 

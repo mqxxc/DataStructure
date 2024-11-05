@@ -18,7 +18,7 @@
     <ClInclude Include="List\List.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="List\ListNode.hpp">
+    <ClInclude Include="Nodes\ListNode.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stack\Stack.hpp">
@@ -30,10 +30,13 @@
     <ClInclude Include="queue\AnnularQueue.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="queue\TwoWayNode.hpp">
+    <ClInclude Include="Nodes\TwoWayNode.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="queue\TwoWayQueue.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stack\MonotoneStack.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
