@@ -147,8 +147,14 @@
     <ClInclude Include="queue\TwoWayQueue.hpp" />
     <ClInclude Include="stack\MonotoneStack.hpp" />
     <ClInclude Include="stack\Stack.hpp" />
+    <ClInclude Include="test\testList.h" />
+    <ClInclude Include="test\testQueue.h" />
+    <ClInclude Include="test\testStack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="test\testList.cpp" />
+    <ClCompile Include="test\testQueue.cpp" />
+    <ClCompile Include="test\testStack.cpp" />
     <ClCompile Include="test\testMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

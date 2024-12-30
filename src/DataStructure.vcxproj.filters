@@ -39,9 +39,27 @@
     <ClInclude Include="stack\MonotoneStack.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="test\testList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="test\testQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="test\testStack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\testMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\testStack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\testQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\testList.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

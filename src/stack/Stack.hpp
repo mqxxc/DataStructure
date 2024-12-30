@@ -30,7 +30,7 @@ inline Stack<T>::~Stack()
 {
 	while (m_pTop != nullptr)
 	{
-		ListNode<T>* temp;
+		ListNode<T>* temp = m_pTop;
 		delete m_pTop;
 		m_pTop = temp->m_pNextNode;
 	}
