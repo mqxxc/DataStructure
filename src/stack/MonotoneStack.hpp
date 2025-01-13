@@ -111,6 +111,11 @@ void MonotoneStack<T>::Push(const T& value)
 template<class T>
 T MonotoneStack<T>::Pop()
 {
+	if (IsEmpty())
+	{
+		throw std::out_of_range("stack is empty");
+	}
+
 	T value = Top();
 	ListNode<T>* temp = m_root;
 	m_root = m_root->m_pNextNode;

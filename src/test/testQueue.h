@@ -7,4 +7,6 @@ namespace Test
 	int test_Queue();
 
 	int Test_TwoWayQueue();
+
+	int Test_PriorityQueue();
 };

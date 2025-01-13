@@ -48,6 +48,9 @@
     <ClInclude Include="test\testStack.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="queue\PriorityQueue.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\testMain.cpp">

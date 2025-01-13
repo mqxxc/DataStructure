@@ -2,6 +2,7 @@
 #include "../Nodes/ListNode.hpp"
 #include <stdexcept>
 
+//队列
 template<class T>
 class Queue 
 {

@@ -2,6 +2,7 @@
 #include "../Nodes/TwoWayNode.hpp"
 #include <stdexcept>
 
+//双向队列
 template<class T>
 class TwoWayQueue
 {

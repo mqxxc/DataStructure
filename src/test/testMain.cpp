@@ -9,6 +9,6 @@ using namespace Test;
 
 int main()
 {
-    Test_MonotoneStack();
+    Test_PriorityQueue();
     return 0;
 }

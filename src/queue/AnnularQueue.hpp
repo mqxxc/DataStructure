@@ -10,7 +10,7 @@ using namespace std;
 
 
 #define DEFAULT_SIZE 15
-
+//环形队列
 template<class T>
 class AnnularQueue
 {

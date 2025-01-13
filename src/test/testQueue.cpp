@@ -60,3 +60,24 @@ int Test::Test_TwoWayQueue()
     return 0;
 }
 
+#include "../queue/PriorityQueue.hpp"
+int Test::Test_PriorityQueue()
+{
+    PriorityQueue<int> queue(5, PriorityQueue<int>::eIncremental);
+    queue.Enque(12);
+    queue.Enque(2);
+    queue.Enque(60);
+    queue.Enque(8);
+    queue.Enque(18);
+    int op = queue.Deque();
+    queue.Enque(20);
+    queue.Enque(17);
+    queue.Enque(3);
+    queue.Enque(13);
+    std::cout << "quenue size is " << queue.Size() << std::endl;
+    std::cout << "quenue count is " << queue.Count() << std::endl;
+    std::cout << "quenue front is " << queue.Top() << std::endl;
+    queue.Print_test();
+    return 0;
+}
+

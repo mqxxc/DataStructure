@@ -142,6 +142,7 @@
     <ClInclude Include="List\List.hpp" />
     <ClInclude Include="Nodes\ListNode.hpp" />
     <ClInclude Include="queue\AnnularQueue.hpp" />
+    <ClInclude Include="queue\PriorityQueue.hpp" />
     <ClInclude Include="queue\Queue.hpp" />
     <ClInclude Include="Nodes\TwoWayNode.hpp" />
     <ClInclude Include="queue\TwoWayQueue.hpp" />
