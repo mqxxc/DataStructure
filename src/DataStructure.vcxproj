@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="List\List.hpp" />
+    <ClInclude Include="Nodes\BTreeNode.h" />
     <ClInclude Include="Nodes\ListNode.hpp" />
     <ClInclude Include="queue\AnnularQueue.hpp" />
     <ClInclude Include="queue\PriorityQueue.hpp" />
@@ -148,11 +149,14 @@
     <ClInclude Include="queue\TwoWayQueue.hpp" />
     <ClInclude Include="stack\MonotoneStack.hpp" />
     <ClInclude Include="stack\Stack.hpp" />
+    <ClInclude Include="test\TestTree.h" />
     <ClInclude Include="test\testList.h" />
     <ClInclude Include="test\testQueue.h" />
     <ClInclude Include="test\testStack.h" />
+    <ClInclude Include="Tree\BTree.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="test\TestTree.cpp" />
     <ClCompile Include="test\testList.cpp" />
     <ClCompile Include="test\testQueue.cpp" />
     <ClCompile Include="test\testStack.cpp" />

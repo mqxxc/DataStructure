@@ -51,6 +51,15 @@
     <ClInclude Include="queue\PriorityQueue.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Tree\BTree.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Nodes\BTreeNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="test\TestTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\testMain.cpp">
@@ -63,6 +72,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="test\testList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\TestTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
