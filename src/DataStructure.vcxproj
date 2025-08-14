@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="List\List.hpp" />
+    <ClInclude Include="Nodes\BPlusTreeNode.h" />
     <ClInclude Include="Nodes\BTreeNode.h" />
     <ClInclude Include="Nodes\ListNode.hpp" />
     <ClInclude Include="queue\AnnularQueue.hpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="test\testList.h" />
     <ClInclude Include="test\testQueue.h" />
     <ClInclude Include="test\testStack.h" />
+    <ClInclude Include="Tree\BPlusTree.h" />
     <ClInclude Include="Tree\BTree.hpp" />
   </ItemGroup>
   <ItemGroup>

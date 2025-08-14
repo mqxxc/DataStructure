@@ -60,6 +60,12 @@
     <ClInclude Include="test\TestTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Tree\BPlusTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Nodes\BPlusTreeNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\testMain.cpp">

@@ -15,7 +15,7 @@ public:
 	bool m_bLeaf;
 
 	BTreeNode(bool bLeaf = false);
-	~BTreeNode();
+	virtual ~BTreeNode();
 
 	int TreeDegree();
 	void Clear();
