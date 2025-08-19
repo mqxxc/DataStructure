@@ -76,26 +76,24 @@ inline bool BTree<T>::Insert(T value)
 		if (node->m_bLeaf)
 		{//抵达叶子
 			node->m_key.insert(node->m_key.begin() + index, value);
-			break;
+			return true;
 		}
 		else if (node->m_pChild[index]->m_key.size() == node->m_pChild[index]->m_key.capacity())
 		{
 			SplittingChildren(node, index);
 
-			T* tempValue = &node->m_key[index];
-
-			if (value > *tempValue)
+			if (value > node->m_key[index])
 			{
 				node = node->m_pChild[index + 1];
 				continue;
 			}
-			else if (value == *tempValue)
+			else if (value == node->m_key[index])
 				return false;
 		}
 
 		node = node->m_pChild[index];
 	}
-	return true;
+	return false;
 }
 
 /*
@@ -123,7 +121,10 @@ inline bool BTree<T>::DeleteAt(T value)
 		(int)m_pRoot->m_pChild[1]->m_key.size() == limitation)
 	{//合并并减少层数
 		MergeChildren(m_pRoot, 0);
+
+		BTreeNode<T>* temp = m_pRoot;
 		m_pRoot = m_pRoot->m_pChild[0];
+		delete temp;
 	}
 
 	BTreeNode<T>* node = m_pRoot;
