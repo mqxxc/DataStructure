@@ -140,8 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="List\List.hpp" />
-    <ClInclude Include="Nodes\BPlusTreeNode.h" />
-    <ClInclude Include="Nodes\BTreeNode.h" />
+    <ClInclude Include="Nodes\BPlusTreeNode.hpp" />
+    <ClInclude Include="Nodes\BTreeNode.hpp" />
     <ClInclude Include="Nodes\ListNode.hpp" />
     <ClInclude Include="queue\AnnularQueue.hpp" />
     <ClInclude Include="queue\PriorityQueue.hpp" />
@@ -154,8 +154,9 @@
     <ClInclude Include="test\testList.h" />
     <ClInclude Include="test\testQueue.h" />
     <ClInclude Include="test\testStack.h" />
-    <ClInclude Include="Tree\BPlusTree.h" />
+    <ClInclude Include="Tree\BPlusTree.hpp" />
     <ClInclude Include="Tree\BTree.hpp" />
+    <ClInclude Include="tree\Read_black_tree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\TestTree.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="test\testQueue.cpp" />
     <ClCompile Include="test\testStack.cpp" />
     <ClCompile Include="test\testMain.cpp" />
+    <ClCompile Include="tree\Read_black_tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include "TestTree.h"
 #include "../Tree/BTree.hpp"
+#include "../tree/BPlusTree.hpp"
 
 #include <iostream>
 #include <chrono>
@@ -77,4 +78,8 @@ void Test::Test_BTree()
 
 	//cout << "find 6:" << (tree.Find(6) ? "find!!" : "no find!!");
     //cout << "find 0:" << (tree.Find(0) ? "find!!" : "no find!!");
+}
+
+void Test::Test_BPlusTree()
+{
 }

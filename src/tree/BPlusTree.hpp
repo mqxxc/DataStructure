@@ -1,5 +1,5 @@
 #pragma once
-#include "../Nodes/BPlusTreeNode.h"
+#include "../Nodes/BPlusTreeNode.hpp"
 
 template<typename T>
 class BPlusTree
@@ -179,6 +179,13 @@ bool BPlusTree<T>::Find(T value) const
 	}
 	return false;
 }
+
+#ifdef _DEBUG
+template<typename T>
+inline void BPlusTree<T>::Printf()
+{
+}
+#endif
 
 template<typename T>
 void BPlusTree<T>::SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex)

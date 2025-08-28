@@ -1,5 +1,5 @@
 #pragma once
-#include "../Nodes/BTreeNode.h"
+#include "../Nodes/BTreeNode.hpp"
 #ifdef _DEBUG
 #include <iostream>
 #include <queue>

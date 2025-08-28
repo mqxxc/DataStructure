@@ -1,5 +1,5 @@
 #pragma once
-#include "BTreeNode.h"
+#include "BTreeNode.hpp"
 
 template<typename T>
 class BPlusTreeNode : public BTreeNode<T>

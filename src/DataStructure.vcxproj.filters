@@ -54,16 +54,19 @@
     <ClInclude Include="Tree\BTree.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Nodes\BTreeNode.h">
+    <ClInclude Include="Nodes\BTreeNode.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="test\TestTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Tree\BPlusTree.h">
+    <ClInclude Include="Tree\BPlusTree.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Nodes\BPlusTreeNode.h">
+    <ClInclude Include="Nodes\BPlusTreeNode.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tree\Read_black_tree.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="test\TestTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tree\Read_black_tree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
