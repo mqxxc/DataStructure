@@ -50,7 +50,6 @@ inline bool BTree<T>::Insert(T value)
 	{//增高
 		BTreeNode<T>* node = new BTreeNode<T>(false);
 		node->m_pChild[0] = m_pRoot;
-
 		m_pRoot = node;
 
 		SplittingChildren(m_pRoot, 0);
@@ -124,6 +123,7 @@ inline bool BTree<T>::DeleteAt(T value)
 
 		BTreeNode<T>* temp = m_pRoot;
 		m_pRoot = m_pRoot->m_pChild[0];
+		temp->Clear();
 		delete temp;
 	}
 
@@ -230,23 +230,22 @@ inline void BTree<T>::Printf()
 template<typename T>
 inline void BTree<T>::SplittingChildren(BTreeNode<T>* node, int childrenIndex)
 {
-	BTreeNode<T>* children = node->m_pChild[childrenIndex];
+	BTreeNode<T>* left = node->m_pChild[childrenIndex];
 
 	//分裂子节点为左右节点
 	BTreeNode<T>* right = new BTreeNode<T>(true);
-	right->m_bLeaf = children->m_bLeaf;
-	int index = (int)children->m_key.size() / 2;
+	right->m_bLeaf = left->m_bLeaf;
+	int index = (int)left->m_key.size() / 2;
 
-	for (int i = index + 1; i < children->m_key.size(); ++i)
-		right->m_key.push_back(children->m_key[i]);
+	right->m_key.insert(right->m_key.begin(), left->m_key.end() - index, left->m_key.end());
 	
-	if (!children->m_bLeaf)
+	if (!left->m_bLeaf)
 	{
 		++index;
 		for (int i = 0; i <= index; ++i)
 		{
-			right->m_pChild[i] = children->m_pChild[index + i];
-			children->m_pChild[index + i] = nullptr;
+			right->m_pChild[i] = left->m_pChild[index + i];
+			left->m_pChild[index + i] = nullptr;
 		}
 		--index;
 	}
@@ -255,14 +254,14 @@ inline void BTree<T>::SplittingChildren(BTreeNode<T>* node, int childrenIndex)
 	int InsterIndex = (int)node->m_key.size();
 	for (int i = 0; i < node->m_key.size(); ++i)
 	{
-		if (node->m_key[i] > children->m_key[index])
+		if (node->m_key[i] > left->m_key[index])
 		{
 			InsterIndex = i;
 			break;
 		}
 	}
-	node->m_key.insert(node->m_key.begin() + InsterIndex, children->m_key[index]);
-	children->m_key.erase(children->m_key.begin() + index, children->m_key.end());
+	node->m_key.insert(node->m_key.begin() + InsterIndex, left->m_key[index]);
+	left->m_key.erase(left->m_key.begin() + index, left->m_key.end());
 
 	//插入父节点孩子指针
 	for (int i = (int)node->m_key.size(); i > childrenIndex; --i)

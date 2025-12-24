@@ -1,6 +1,8 @@
 #pragma once
 #include "BTreeNode.hpp"
 
+//B+Ê÷½Úµã
+
 template<typename T>
 class BPlusTreeNode : public BTreeNode<T>
 {

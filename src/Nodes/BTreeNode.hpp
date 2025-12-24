@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+//BÊ÷½Úµã
+
 #ifndef B_TREE_HALF_DEGREE
 #define B_TREE_HALF_DEGREE 2
 #endif // B_TREE_DEGREE

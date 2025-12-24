@@ -1,5 +1,9 @@
 #pragma once
 #include "../Nodes/BPlusTreeNode.hpp"
+#ifdef _DEBUG
+#include <iostream>
+#include <queue>
+#endif // _DEBUG
 
 template<typename T>
 class BPlusTree
@@ -19,10 +23,10 @@ public:
 private:
 	BPlusTreeNode<T>* m_pRoot;
 
-	void SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex);
-	void MergeChildren(BPlusTreeNode<T>* parentNode, int keyIndex);
-	T RemoveNodeKey(BPlusTreeNode<T>* node, int& index);
-	BPlusTreeNode<T>* StandardAlong(BPlusTreeNode<T>* node, int index);
+	void SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex);		//分裂子结点
+	void MergeChildren(BPlusTreeNode<T>* parentNode, int keyIndex);			//合并子结点
+	T RemoveNodeKey(BPlusTreeNode<T>* node, int& index);					//删除关键字
+	BPlusTreeNode<T>* StandardAlong(BPlusTreeNode<T>* node, int index);		//标准化
 };
 
 template<typename T>
@@ -41,7 +45,7 @@ template<typename T>
 bool BPlusTree<T>::Insert(T value)
 {
 	if (m_pRoot->m_key.size() == m_pRoot->m_key.capacity())
-	{
+	{//增高
 		BPlusTreeNode<T>* node = new BPlusTreeNode<T>(false);
 		node->SetChild(0, m_pRoot);
 		m_pRoot = node;
@@ -51,7 +55,7 @@ bool BPlusTree<T>::Insert(T value)
 
 	BPlusTreeNode<T>* node = m_pRoot;
 
-	while (node)
+	while (node != nullptr)
 	{
 		int keyNum = (int)node->m_key.size();
 		int index = keyNum;
@@ -86,7 +90,6 @@ bool BPlusTree<T>::Insert(T value)
 
 		node = node->Child(index);
 	}
-
 	return false;
 }
 
@@ -184,6 +187,32 @@ bool BPlusTree<T>::Find(T value) const
 template<typename T>
 inline void BPlusTree<T>::Printf()
 {
+	std::queue<BPlusTreeNode<T>*> queue;
+	queue.push(m_pRoot);
+
+	while (!queue.empty())
+	{
+		BPlusTreeNode<T>* node = queue.front();
+		queue.pop();
+		for(int i = 0; i < node->TreeDegree(); ++i)
+		{
+			auto it = node->Child(i);
+			if (it == nullptr)
+				break;
+
+			queue.push(it);
+		}
+
+		std::cout << "-------------------------------------" << std::endl;
+		for (auto it : node->m_key)
+		{
+			std::cout << it << "     ";
+		}
+		std::cout << std::endl;
+		std::cout << "*************************************" << std::endl;
+	}
+
+	std::cout << "real data:" << std::endl;
 }
 #endif
 
@@ -194,10 +223,19 @@ void BPlusTree<T>::SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex)
 	BPlusTreeNode<T>* right = new BPlusTreeNode<T>(left->m_bLeaf);
 	int nIndex = (int)left->m_key.size() / 2;
 
-	right->m_key.insert(right->m_key.begin(), left->m_key.end() - left->m_key.size() / 2, left->m_key.end());
+	if (left->m_bLeaf)
+	{//中间结点不需要单独拎出来放到父结点而是将值复制到父结点中
+		right->m_key.insert(right->m_key.begin(), left->m_key.end() - nIndex - 1, left->m_key.end());
 
-	if (!left->m_bLeaf)
-	{
+		//更新叶子的上下游指针
+		right->m_prev = left;
+		right->m_next = left->m_next;
+		left->m_next = right;
+	}
+	else
+	{//当需要分裂的结点不是叶子时，走和B树一样的流程即可
+		right->m_key.insert(right->m_key.begin(), left->m_key.end() - nIndex, left->m_key.end());
+
 		++nIndex;
 		for (int i = 0; i < nIndex; ++i)
 		{
@@ -205,11 +243,7 @@ void BPlusTree<T>::SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex)
 			left->SetChild(nIndex + i, nullptr);
 		}
 		--nIndex;
-
-		left->m_key.resize(nIndex);
 	}
-	else
-		left->m_key.resize(nIndex + 1);
 
 	//将中间节点插入到父节点中
 	int InsterIndex = (int)node->m_key.size();
@@ -222,6 +256,7 @@ void BPlusTree<T>::SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex)
 		}
 	}
 	node->m_key.insert(node->m_key.begin() + InsterIndex, left->m_key[nIndex]);
+	left->m_key.erase(left->m_key.begin() + nIndex, left->m_key.end());
 
 	//插入父节点孩子指针
 	for (int i = (int)node->m_key.size(); i > childrenIndex; --i)
@@ -229,14 +264,6 @@ void BPlusTree<T>::SplittingChildren(BPlusTreeNode<T>* node, int childrenIndex)
 
 	node->SetChild(childrenIndex + 1, right);
 	node->m_bLeaf = false;
-
-	//更新叶子的上下游指针
-	if (left->m_bLeaf)
-	{
-		right->m_prev = left;
-		right->m_next = left->m_next;
-		left->m_next = right;
-	}
 }
 
 template<typename T>
@@ -244,6 +271,34 @@ void BPlusTree<T>::MergeChildren(BPlusTreeNode<T>* parentNode, int keyIndex)
 {
 	BPlusTreeNode<T>* leftNode = parentNode->Child(keyIndex);
 	BPlusTreeNode<T>* rightNode = parentNode->Child(keyIndex + 1);
+
+	if (leftNode->m_bLeaf)
+	{
+		leftNode->m_key.insert(leftNode->m_key.end(), rightNode->m_key.begin(), rightNode->m_key.end());
+		if (rightNode->m_next != nullptr)
+		{
+			rightNode->m_next->m_prev = leftNode;
+			leftNode->m_next = rightNode->m_next;
+		}
+	}
+	else
+	{//非叶子结点合并时与
+		int pos = (int)leftNode->m_key.size() + 1;
+		leftNode->m_key.push_back(parentNode->m_key[keyIndex]);
+		leftNode->m_key.insert(leftNode->m_key.end(), rightNode->m_key.begin(), rightNode->m_key.end());
+
+		for (int i = 0; i < rightNode->m_key.size() + 1; ++i)
+			leftNode->SetChild(pos + i, rightNode->Child(i));
+	}
+
+	rightNode->Clear();
+	delete rightNode;
+
+	for (int i = keyIndex + 1; i < parentNode->m_key.size(); ++i)
+		parentNode->SetChild(i, parentNode->Child(i + 1));
+
+	parentNode->SetChild((int)parentNode->m_key.size(), nullptr);
+	parentNode->m_key.erase(parentNode->m_key.begin() + keyIndex);
 }
 
 template<typename T>
@@ -254,7 +309,7 @@ T BPlusTree<T>::RemoveNodeKey(BPlusTreeNode<T>* node, int& index)
 	{//左节点满足
 		BPlusTreeNode<T>* tagNode = node->Child(index);
 		while (!tagNode->m_bLeaf)
-			tagNode = tagNode->Child(tagNode->m_key.size());
+			tagNode = tagNode->Child((int)tagNode->m_key.size());
 
 		node->m_key[index] = tagNode->m_key.back();
 		return node->m_key[index];
@@ -303,8 +358,8 @@ BPlusTreeNode<T>* BPlusTree<T>::StandardAlong(BPlusTreeNode<T>* node, int index)
 			for (int i = (int)posNode->m_key.size(); i > 0; --i)
 				posNode->SetChild(i, posNode->Child(i - 1));
 
-			posNode->SetChild(0, leftNode->Child(leftNode->m_key.size() + 1));
-			leftNode->SetChild(leftNode->m_key.size() + 1, nullptr);
+			posNode->SetChild(0, leftNode->Child((int)leftNode->m_key.size() + 1));
+			leftNode->SetChild((int)leftNode->m_key.size() + 1, nullptr);
 		}
 	}
 	else if (rightNode != nullptr && rightNode->m_key.size() > limitation)
@@ -315,7 +370,7 @@ BPlusTreeNode<T>* BPlusTree<T>::StandardAlong(BPlusTreeNode<T>* node, int index)
 
 		if (!posNode->m_bLeaf)
 		{
-			posNode->SetChild(posNode->m_key.size(), rightNode->Child(0));
+			posNode->SetChild((int)posNode->m_key.size(), rightNode->Child(0));
 
 			for (int i = 0; i < rightNode->m_key.size() + 2; ++i)
 				rightNode->SetChild(i, rightNode->Child(i + 1));

@@ -10,6 +10,6 @@ using namespace Test;
 
 int main()
 {
-    Test_BTree();
+    Test::Test_BPlusTree();
     return 0;
 }

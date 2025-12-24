@@ -1,7 +1,7 @@
 #pragma once
+//双向列表节点
 
 template<class T>
-//双向列表节点
 class TwoWayNode
 {
 public:
