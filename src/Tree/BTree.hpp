@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../Nodes/BTreeNode.hpp"
 #ifdef _DEBUG
 #include <iostream>
@@ -7,55 +7,57 @@
 
 
 //b树(不允许重复key，插入重复key时什么也不做)
-template <typename T>
+template <typename T, int degree = 4>
 class BTree
 {
 public:
 	BTree();
 	~BTree();
 
-	bool Insert(T value);
-	bool DeleteAt(T value);
-	bool Find(T Value);
+	bool Insert(const T& value);
+	bool DeleteAt(const T& value);
+	bool Find(const T& Value);
+
+	static int KeyMinLimitation();
 
 #ifdef _DEBUG
 	void Printf();
 #endif
 
 private:
-	BTreeNode<T>* m_pRoot;
+	BTreeNode<T, degree>* m_pRoot;
 	
-	void SplittingChildren(BTreeNode<T>* node, int childrenIndex);
-	void MergeChildren(BTreeNode<T>* parentNode, int keyIndex);
-	T RemoveNodeKey(BTreeNode<T>* node, int& index);
-	BTreeNode<T>* StandardAlong(BTreeNode<T>* node, int index);
+	void SplittingChildren(BTreeNode<T, degree>* node, int childrenIndex);
+	void MergeChildren(BTreeNode<T, degree>* parentNode, int keyIndex);
+	T RemoveNodeKey(BTreeNode<T, degree>* node, int index);
+	BTreeNode<T, degree>* StandardAlong(BTreeNode<T, degree>* node, int index);
 };
 
-template<typename T>
-inline BTree<T>::BTree()
+template<typename T, int degree>
+inline BTree<T, degree>::BTree()
 {
-	m_pRoot = new BTreeNode<T>(true);
+	m_pRoot = new BTreeNode<T, degree>(true);
 }
 
-template<typename T>
-inline BTree<T>::~BTree()
+template<typename T, int degree>
+inline BTree<T, degree>::~BTree()
 {
 	delete m_pRoot;
 }
 
-template<typename T>
-inline bool BTree<T>::Insert(T value)
+template<typename T, int degree>
+inline bool BTree<T, degree>::Insert(const T& value)
 {
 	if (m_pRoot->m_key.size() == m_pRoot->m_key.capacity())
 	{//增高
-		BTreeNode<T>* node = new BTreeNode<T>(false);
+		BTreeNode<T, degree>* node = new BTreeNode<T, degree>(false);
 		node->m_pChild[0] = m_pRoot;
 		m_pRoot = node;
 
 		SplittingChildren(m_pRoot, 0);
 	}
 
-	BTreeNode<T>* node = m_pRoot;
+	BTreeNode<T, degree>* node = m_pRoot;
 
 	while (node != nullptr)
 	{
@@ -109,10 +111,11 @@ inline bool BTree<T>::Insert(T value)
 *
 */
 
-template<typename T>
-inline bool BTree<T>::DeleteAt(T value)
+template<typename T, int degree>
+inline bool BTree<T, degree>::DeleteAt(const T& value)
 {
-	int limitation = m_pRoot->TreeDegree() / 2 - 1;
+	T delValue = value;
+	int limitation = KeyMinLimitation();
 	if (m_pRoot->m_key.size() == 1 &&
 		m_pRoot->m_pChild[0] != nullptr &&
 		m_pRoot->m_pChild[1] != nullptr &&
@@ -121,13 +124,13 @@ inline bool BTree<T>::DeleteAt(T value)
 	{//合并并减少层数
 		MergeChildren(m_pRoot, 0);
 
-		BTreeNode<T>* temp = m_pRoot;
+		BTreeNode<T, degree>* temp = m_pRoot;
 		m_pRoot = m_pRoot->m_pChild[0];
 		temp->Clear();
 		delete temp;
 	}
 
-	BTreeNode<T>* node = m_pRoot;
+	BTreeNode<T, degree>* node = m_pRoot;
 
 	int index = -1;
 
@@ -137,12 +140,12 @@ inline bool BTree<T>::DeleteAt(T value)
 		bool find = false;
 		for (int i = 0; i < node->m_key.size(); ++i)
 		{
-			if (node->m_key[i] > value)
+			if (node->m_key[i] > delValue)
 			{
 				index = i;
 				break;
 			}
-			else if (node->m_key[i] == value)
+			else if (node->m_key[i] == delValue)
 			{
 				find = true;
 				index = i;
@@ -157,7 +160,7 @@ inline bool BTree<T>::DeleteAt(T value)
 				node->m_key.erase(node->m_key.begin() + index);
 				return true;
 			}
-			value = RemoveNodeKey(node, index);
+			delValue = RemoveNodeKey(node, index);
 		}
 		else if (node->m_pChild[index]->m_key.size() == limitation)
 		{
@@ -172,10 +175,10 @@ inline bool BTree<T>::DeleteAt(T value)
 	return false;
 }
 
-template<typename T>
-inline bool BTree<T>::Find(T Value)
+template<typename T, int degree>
+inline bool BTree<T, degree>::Find(const T& Value)
 {
-	BTreeNode<T>* node = m_pRoot;
+	BTreeNode<T, degree>* node = m_pRoot;
 	
 	while (node != nullptr)
 	{
@@ -197,16 +200,23 @@ inline bool BTree<T>::Find(T Value)
 	return false;
 }
 
-#ifdef _DEBUG
-template<typename T>
-inline void BTree<T>::Printf()
+template<typename T, int degree>
+inline int BTree<T, degree>::KeyMinLimitation()
 {
-	std::queue<BTreeNode<T>*> queue;
+	BTreeNode<T, degree> node;
+	return int(node.TreeDegree() / 2 - 1);
+}
+
+#ifdef _DEBUG
+template<typename T, int degree>
+inline void BTree<T, degree>::Printf()
+{
+	std::queue<BTreeNode<T, degree>*> queue;
 	queue.push(m_pRoot);
 
 	while (!queue.empty())
 	{
-		BTreeNode<T>* node = queue.front();
+		BTreeNode<T, degree>* node = queue.front();
 		queue.pop();
 		for (auto it : node->m_pChild)
 		{
@@ -227,17 +237,17 @@ inline void BTree<T>::Printf()
 }
 #endif
 
-template<typename T>
-inline void BTree<T>::SplittingChildren(BTreeNode<T>* node, int childrenIndex)
+template<typename T, int degree>
+inline void BTree<T, degree>::SplittingChildren(BTreeNode<T, degree>* node, int childrenIndex)
 {
-	BTreeNode<T>* left = node->m_pChild[childrenIndex];
+	BTreeNode<T, degree>* left = node->m_pChild[childrenIndex];
 
 	//分裂子节点为左右节点
-	BTreeNode<T>* right = new BTreeNode<T>(true);
+	BTreeNode<T, degree>* right = new BTreeNode<T, degree>(true);
 	right->m_bLeaf = left->m_bLeaf;
 	int index = (int)left->m_key.size() / 2;
 
-	right->m_key.insert(right->m_key.begin(), left->m_key.end() - index, left->m_key.end());
+	right->m_key.insert(right->m_key.begin(), left->m_key.begin() + index, left->m_key.end());
 	
 	if (!left->m_bLeaf)
 	{
@@ -271,11 +281,11 @@ inline void BTree<T>::SplittingChildren(BTreeNode<T>* node, int childrenIndex)
 	node->m_bLeaf = false;
 }
 
-template<typename T>
-inline void BTree<T>::MergeChildren(BTreeNode<T>* parentNode, int keyIndex)
+template<typename T, int degree>
+inline void BTree<T, degree>::MergeChildren(BTreeNode<T, degree>* parentNode, int keyIndex)
 {
-	BTreeNode<T>* leftNode = parentNode->m_pChild[keyIndex];
-	BTreeNode<T>* rightNode = parentNode->m_pChild[keyIndex + 1];
+	BTreeNode<T, degree>* leftNode = parentNode->m_pChild[keyIndex];
+	BTreeNode<T, degree>* rightNode = parentNode->m_pChild[keyIndex + 1];
 
 	int pos = (int)leftNode->m_key.size() + 1;
 	leftNode->m_key.push_back(parentNode->m_key[keyIndex]);
@@ -294,13 +304,13 @@ inline void BTree<T>::MergeChildren(BTreeNode<T>* parentNode, int keyIndex)
 	parentNode->m_key.erase(parentNode->m_key.begin() + keyIndex);
 }
 
-template<typename T>
-inline T BTree<T>::RemoveNodeKey(BTreeNode<T>* node, int& index)
+template<typename T, int degree>
+inline T BTree<T, degree>::RemoveNodeKey(BTreeNode<T, degree>* node, int index)
 {
-	int limitation = (int)node->TreeDegree() / 2 - 1;
+	int limitation = KeyMinLimitation();
 	if (node->m_pChild[index]->m_key.size() > limitation)
 	{//左节点满足
-		BTreeNode<T>* tagNode = node->m_pChild[index];
+		BTreeNode<T, degree>* tagNode = node->m_pChild[index];
 		while (!tagNode->m_bLeaf)
 			tagNode = tagNode->m_pChild[tagNode->m_key.size()];
 
@@ -310,7 +320,7 @@ inline T BTree<T>::RemoveNodeKey(BTreeNode<T>* node, int& index)
 
 	if (node->m_pChild[index + 1]->m_key.size() > limitation)
 	{//右节点满足
-		BTreeNode<T>* tagNode = node->m_pChild[index + 1];
+		BTreeNode<T, degree>* tagNode = node->m_pChild[index + 1];
 		while (!tagNode->m_bLeaf)
 			tagNode = tagNode->m_pChild[0];
 
@@ -324,13 +334,13 @@ inline T BTree<T>::RemoveNodeKey(BTreeNode<T>* node, int& index)
 	return temp;
 }
 
-template<typename T>
-inline BTreeNode<T>* BTree<T>::StandardAlong(BTreeNode<T>* node, int index)
+template<typename T, int degree>
+inline BTreeNode<T, degree>* BTree<T, degree>::StandardAlong(BTreeNode<T, degree>* node, int index)
 {
-	int limitation = m_pRoot->TreeDegree() / 2 - 1;
-	BTreeNode<T>* leftNode = nullptr;
-	BTreeNode<T>* rightNode = nullptr;
-	BTreeNode<T>* posNode = node->m_pChild[index];
+	int limitation = KeyMinLimitation();
+	BTreeNode<T, degree>* leftNode = nullptr;
+	BTreeNode<T, degree>* rightNode = nullptr;
+	BTreeNode<T, degree>* posNode = node->m_pChild[index];
 
 	if (index > 0)
 		leftNode = node->m_pChild[index - 1];

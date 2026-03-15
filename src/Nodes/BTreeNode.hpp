@@ -2,18 +2,12 @@
 #include <vector>
 //BÊ÷½Úµã
 
-#ifndef B_TREE_HALF_DEGREE
-#define B_TREE_HALF_DEGREE 2
-#endif // B_TREE_DEGREE
-
-constexpr int degree_ = B_TREE_HALF_DEGREE * 2;
-
-template <typename T>
+template <typename T, int degree>
 class BTreeNode
 {
 public:
 	std::vector<T> m_key;
-	BTreeNode* m_pChild[degree_];
+	BTreeNode* m_pChild[degree];
 	bool m_bLeaf;
 
 	BTreeNode(bool bLeaf = false);
@@ -23,8 +17,8 @@ public:
 	void Clear();
 };
 
-template<typename T>
-inline BTreeNode<T>::BTreeNode(bool bLeaf)
+template<typename T, int degree>
+inline BTreeNode<T, degree>::BTreeNode(bool bLeaf)
 {
 	m_key.reserve(degree_ - 1);
 	m_bLeaf = bLeaf;
@@ -35,8 +29,8 @@ inline BTreeNode<T>::BTreeNode(bool bLeaf)
 	}
 }
 
-template<typename T>
-inline BTreeNode<T>::~BTreeNode()
+template<typename T, int degree>
+inline BTreeNode<T, degree>::~BTreeNode()
 {
 	for (int i = 0; i < degree_; ++i)
 	{
@@ -45,14 +39,14 @@ inline BTreeNode<T>::~BTreeNode()
 	}
 }
 
-template<typename T>
-inline int BTreeNode<T>::TreeDegree()
+template<typename T, int degree>
+inline int BTreeNode<T, degree>::TreeDegree()
 {
 	return degree_;
 }
 
-template<typename T>
-inline void BTreeNode<T>::Clear()
+template<typename T, int degree>
+inline void BTreeNode<T, degree>::Clear()
 {
 	m_key.clear();
 	for (int i = 0; i < degree_; ++i)
