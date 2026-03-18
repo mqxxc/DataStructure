@@ -34,7 +34,7 @@ inline BPlusTreeNode<T, degree>::~BPlusTreeNode()
 template<typename T, int degree>
 inline BPlusTreeNode<T, degree>* BPlusTreeNode<T, degree>::Child(int index)
 {
-	return dynamic_cast<BPlusTreeNode<T>*>(m_pChild[index]);
+	return dynamic_cast<BPlusTreeNode<T, degree>*>(m_pChild[index]);
 }
 
 template<typename T, int degree>

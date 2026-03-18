@@ -20,10 +20,10 @@ public:
 template<typename T, int degree>
 inline BTreeNode<T, degree>::BTreeNode(bool bLeaf)
 {
-	m_key.reserve(degree_ - 1);
+	m_key.reserve(degree - 1);
 	m_bLeaf = bLeaf;
 
-	for (int i = 0; i < degree_; ++i)
+	for (int i = 0; i < degree; ++i)
 	{
 		m_pChild[i] = nullptr;
 	}
@@ -32,7 +32,7 @@ inline BTreeNode<T, degree>::BTreeNode(bool bLeaf)
 template<typename T, int degree>
 inline BTreeNode<T, degree>::~BTreeNode()
 {
-	for (int i = 0; i < degree_; ++i)
+	for (int i = 0; i < degree; ++i)
 	{
 		if(m_pChild[i] != nullptr)
 			delete m_pChild[i];
@@ -42,14 +42,14 @@ inline BTreeNode<T, degree>::~BTreeNode()
 template<typename T, int degree>
 inline int BTreeNode<T, degree>::TreeDegree()
 {
-	return degree_;
+	return degree;
 }
 
 template<typename T, int degree>
 inline void BTreeNode<T, degree>::Clear()
 {
 	m_key.clear();
-	for (int i = 0; i < degree_; ++i)
+	for (int i = 0; i < degree; ++i)
 	{
 		m_pChild[i] = nullptr;
 	}

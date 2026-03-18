@@ -110,29 +110,21 @@ void Test::Test_BPlusTree()
 
     //auto end = high_resolution_clock::now();
 
-    /*for (int i = 0; i < sizeof(keys_to_insert) / sizeof(int); i++)
-        tree.Insert(keys_to_insert[i]);*/
-
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < sizeof(keys_to_insert) / sizeof(int); i++)
         tree.Insert(keys_to_insert[i]);
 
-    tree.Printf();
+   /* tree.Printf();
+
+    tree.PrintfForLeaf();*/
 
     //return;
     /*auto duration = duration_cast<nanoseconds>(end - start);
     std::cout << "耗时: " << duration.count() << " ns" << std::endl;*/
 
-    //tree.Printf();
-
     // 简单删除，不触发重平衡
     tree.DeleteAt(8);
 
-    tree.Printf();
-
     tree.DeleteAt(11);
-
-    tree.Printf();
-
 
     tree.DeleteAt(30);
 
@@ -142,6 +134,7 @@ void Test::Test_BPlusTree()
     tree.DeleteAt(13);
 
     tree.DeleteAt(5);
+
     tree.DeleteAt(4);
 
     tree.DeleteAt(14);
@@ -149,13 +142,18 @@ void Test::Test_BPlusTree()
     tree.DeleteAt(10);
 
     tree.DeleteAt(3);
+
     tree.DeleteAt(6);
+
     tree.DeleteAt(12);
+
     tree.DeleteAt(16);
+
     tree.DeleteAt(20);
 
     tree.Printf();
 
+    tree.PrintfForLeaf();
 
     //cout << "find 6:" << (tree.Find(6) ? "find!!" : "no find!!");
     //cout << "find 0:" << (tree.Find(0) ? "find!!" : "no find!!");
