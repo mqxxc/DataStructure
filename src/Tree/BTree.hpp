@@ -29,7 +29,7 @@ private:
 	
 	void SplittingChildren(BTreeNode<T, degree>* node, int childrenIndex);
 	void MergeChildren(BTreeNode<T, degree>* parentNode, int keyIndex);
-	T RemoveNodeKey(BTreeNode<T, degree>* node, int index);
+	T RemoveNodeKey(BTreeNode<T, degree>* node, int& index);
 	BTreeNode<T, degree>* StandardAlong(BTreeNode<T, degree>* node, int index);
 };
 
@@ -162,7 +162,8 @@ inline bool BTree<T, degree>::DeleteAt(const T& value)
 			}
 			delValue = RemoveNodeKey(node, index);
 		}
-		else if (node->m_pChild[index]->m_key.size() == limitation)
+		else if (!node->m_bLeaf
+			&& node->m_pChild[index]->m_key.size() == limitation)
 		{
 			
 			node = StandardAlong(node, index);
@@ -216,23 +217,34 @@ inline void BTree<T, degree>::Printf()
 
 	while (!queue.empty())
 	{
-		BTreeNode<T, degree>* node = queue.front();
-		queue.pop();
-		for (auto it : node->m_pChild)
-		{
-			if (it == nullptr)
-				break;
+		std::queue<BTreeNode<T, degree>*> copyQueue;
+		queue.swap(copyQueue);
 
-			queue.push(it);
-		}
-
-		std::cout << "-------------------------------------" << std::endl;
-		for (auto it : node->m_key)
+		while (!copyQueue.empty())
 		{
-			std::cout << it << "     ";
+			auto node = copyQueue.front();
+			copyQueue.pop();
+			for (int i = 0; i < node->TreeDegree(); ++i)
+			{
+				auto it = node->m_pChild[i];
+				if (it == nullptr)
+					break;
+
+				queue.push(it);
+			}
+
+			for (auto it : node->m_key)
+			{
+				std::cout << it << "     ";
+			}
+
+			if (!copyQueue.empty())
+			{
+				std::cout << "|     ";
+			}
 		}
 		std::cout << std::endl;
-		std::cout << "*************************************" << std::endl;
+		std::cout << "-------------------------------------" << std::endl;
 	}
 }
 #endif
@@ -247,7 +259,7 @@ inline void BTree<T, degree>::SplittingChildren(BTreeNode<T, degree>* node, int 
 	right->m_bLeaf = left->m_bLeaf;
 	int index = (int)left->m_key.size() / 2;
 
-	right->m_key.insert(right->m_key.begin(), left->m_key.begin() + index, left->m_key.end());
+	right->m_key.insert(right->m_key.begin(), left->m_key.begin() + index + 1, left->m_key.end());
 	
 	if (!left->m_bLeaf)
 	{
@@ -305,7 +317,7 @@ inline void BTree<T, degree>::MergeChildren(BTreeNode<T, degree>* parentNode, in
 }
 
 template<typename T, int degree>
-inline T BTree<T, degree>::RemoveNodeKey(BTreeNode<T, degree>* node, int index)
+inline T BTree<T, degree>::RemoveNodeKey(BTreeNode<T, degree>* node, int& index)
 {
 	int limitation = KeyMinLimitation();
 	if (node->m_pChild[index]->m_key.size() > limitation)
